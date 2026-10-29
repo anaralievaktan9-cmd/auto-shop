@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Shop</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f2f4f8; color: #222; }
+    header { background: #1f2a44; color: #fff; padding: 20px; text-align: center; }
+    .controls { display: flex; gap: 10px; justify-content: center; padding: 20px; flex-wrap: wrap; }
+    .controls input, .controls select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+    #cars { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px; max-width: 1100px; margin: 0 auto; }
+    .card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+    .card .icon { font-size: 60px; text-align: center; }
+    .card h3 { margin: 10px 0 5px; }
+    .card p { color: #666; margin-bottom: 5px; }
+    .card .price { font-weight: bold; color: #1a7f37; font-size: 20px; margin: 10px 0; }
+    .card button { width: 100%; padding: 10px; border: none; background: #1f2a44; color: #fff; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    .card button:hover { background: #33446e; }
+    .empty { text-align: center; color: #888; grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <header><h1>🚗 Auto Shop</h1></header>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Машинаны издөө...">
+    <select id="brand">
+      <option value="all">Бардык маркалар</option>
+    </select>
+  </div>
+
+  <main id="cars"></main>
+
+  <script>
+    const cars = [
+      { id: 1, name: "Camry", brand: "Toyota", year: 2020, price: 18500 },
+      { id: 2, name: "Corolla", brand: "Toyota", year: 2018, price: 12000 },
+      { id: 3, name: "Civic", brand: "Honda", year: 2019, price: 14500 },
+      { id: 4, name: "Accord", brand: "Honda", year: 2021, price: 21000 },
+      { id: 5, name: "E-Class", brand: "Mercedes", year: 2017, price: 25000 },
+      { id: 6, name: "X5", brand: "BMW", year: 2020, price: 38000 }
+    ];
+
+    const carsEl = document.getElementById("cars");
+    const searchEl = document.getElementById("search");
+    const brandEl = document.getElementById("brand");
+
+    // Марка тизмесин автоматтык толтуруу
+    [...new Set(cars.map(c => c.brand))].forEach(b => {
+      brandEl.innerHTML += `<option value="${b}">${b}</option>`;
+    });
+
+    function render() {
+      const text = searchEl.value.toLowerCase();
+      const brand = brandEl.value;
+
+      const filtered = cars.filter(c =>
+        (brand === "all" || c.brand === brand) &&
+        (c.name + " " + c.brand).toLowerCase().includes(text)
+      );
+
+      if (filtered.length === 0) {
+        carsEl.innerHTML = '<p class="empty">Машина табылган жок</p>';
+        return;
+      }
+
+      carsEl.innerHTML = filtered.map(c => `
+        <div class="card">
+          <div class="icon">🚘</div>
+          <h3>${c.brand} ${c.name}</h3>
+          <p>Жылы: ${c.year}</p>
+          <div class="price">$${c.price.toLocaleString()}</div>
+          <button onclick="buy(${c.id})">Сатып алуу</button>
+        </div>
+      `).join("");
+    }
+
+    function buy(id) {
+      const car = cars.find(c => c.id === id);
+      alert(car.brand + " " + car.name + " тандалды!");
+    }
+
+    searchEl.addEventListener("input", render);
+    brandEl.addEventListener("change", render);
+    render();
+  </script>
+</body>
+</html>
