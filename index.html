@@ -155,7 +155,9 @@ body { font-family: Arial, sans-serif; }
 
     <input type="text" class="search" id="search" placeholder="Поиск машины..." oninput="searchProducts()">
 
-    <div class="products" id="products"></div>
+    <div class="products" id="products">
+    <img src="" alt="">
+    </div>
 </section>
 
 <!-- CART -->
@@ -209,7 +211,7 @@ function showPage(name) {
 /* ===== АКТАН: КАТАЛОГ СКРИПТИ ===================== */
 /* ================================================== */
 const cars = [
-  { id: 1, name: "Camry", brand: "Toyota", year: 2020, price: 18500 },
+  { id: 1, name: "Camry", brand: "Toyota", year: 2020, price:12222 },
   { id: 2, name: "Corolla", brand: "Toyota", year: 2018, price: 12000 },
   { id: 3, name: "Civic", brand: "Honda", year: 2019, price: 14500 },
   { id: 4, name: "Accord", brand: "Honda", year: 2021, price: 21000 },
@@ -308,7 +310,9 @@ function showProducts(list) {
 // FILTER
 function filterProducts(category, button) {
     currentCategory = category;
-
+ { id: 8, name: "Honda Fit", category: "Хэтчбек", price: 9800, icon: "🚘" },
+{ id: 9, name: "Mercedes G-Class", category: "Внедорожник", price: 120000, icon: "🚙" },
+{ id: 10, name: "BMW 3 Series", category: "Седан", price: 28000, icon: "🚗" }
     document.querySelectorAll("#shop-page .categories button").forEach(btn => {
         btn.classList.remove("active");
     });
